@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['your-pocketbase-domain.com', 'images.unsplash.com'],
+    domains: ['https://drawease-snowy.vercel.app', 'images.unsplash.com'],
   },
 }
 

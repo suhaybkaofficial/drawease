@@ -40,18 +40,32 @@ export default function SettingsPage() {
         const formData = new FormData();
         formData.append('username', username);
         formData.append('name', name);
+        formData.append('email', email);
         if (avatar) {
           formData.append('avatar', avatar);
         }
 
         const record = await update('users', authStore.model.id, formData);
-        
+
         authStore.save(authStore.token, record);
 
         resolve('Profile updated successfully!');
       } catch (error) {
-        console.error('Error updating profile:', error);
-        reject('Failed to update profile. Please try again.');
+        if (error.data) {
+          const errorData = error?.data?.data;
+          if (errorData && errorData.username) {
+            reject(`Invalid username: ${errorData?.username?.message}`);
+          } else if (errorData && errorData.name) {
+            reject(`Invalid name: ${errorData?.name?.message}`);
+          } else if (errorData && errorData.email) {
+            reject(`Invalid email: ${errorData?.email?.message}`);
+          }
+          else {
+            reject('Something went wrong while processing your request.');
+          }
+        } else {
+          reject('Failed to update profile. Please try again.');
+        }
       }
     });
 
@@ -114,7 +128,8 @@ export default function SettingsPage() {
             id="email"
             type="email"
             value={email}
-            readOnly
+            onChange={(e) => setEmail(e.target.value)}
+
             className="w-full bg-gray-100"
           />
         </div>

@@ -189,7 +189,7 @@ export default function Canvas() {
   return (
     <div className="flex flex-col items-center w-full h-full" ref={containerRef}>
       <Toaster position="top-right" />
-      <div className="mb-4 flex items-center space-x-4 flex-wrap justify-center">
+      <div className="mb-4 flex items-center gap-4 flex-wrap justify-center">
         <Input
           type="color"
           value={color}
@@ -218,17 +218,23 @@ export default function Canvas() {
         ref={canvasRef}
         className="w-full h-[calc(100vh-16rem)] border rounded-lg"
       />
-      <div className="mt-4 flex items-center space-x-4 flex-wrap justify-center">
-        <Input
-          type="text"
-          placeholder="Drawing Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="w-48"
-        />
+      <div className="mt-4 flex items-center gap-4 flex-wrap justify-between  w-full">
+        <div className="flex items-center gap-4 justify-between w-full md:w-auto">
+          <Input
+            type="text"
+            placeholder="Drawing Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-48 flex-1 md:flex-none"
+          />
+          <Button onClick={handleUpload} >
+            <Upload className="mr-2 h-4 w-4" />
+            Save <span className="hidden md:inline ml-1"> Drawing</span>
+          </Button>
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button disabled={isCanvasEmpty}>
+            <Button disabled={isCanvasEmpty} className="w-full md:w-auto">
               <Download className="mr-2 h-4 w-4" />
               Download
             </Button>
@@ -242,10 +248,6 @@ export default function Canvas() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Button onClick={handleUpload}>
-          <Upload className="mr-2 h-4 w-4" />
-          Upload
-        </Button>
       </div>
     </div>
   );
